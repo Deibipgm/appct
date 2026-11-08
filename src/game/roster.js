@@ -29,7 +29,7 @@ export const ENEMY_KINDS = {
   // Fase 6 · Aplicação Aérea (só aparecem no voo; tamanho e vida ficam em flightFoes.js)
   aereoMosca: { type: 'whitefly', label: 'Mosca-branca', w: 36, h: 28, speed: 1, role: 'Voa em ondas, sobe e desce. Um jato derruba.' },
   mariposa: { type: 'whitefly', label: 'Mariposa', w: 36, h: 28, speed: 1, role: 'Persegue a altura do avião. Leva 2 jatos.' },
-  aereoBicudo: { type: 'whitefly', label: 'Bicudo voador', w: 36, h: 28, speed: 1, role: 'Bate as asinhas e cospe gosma mirando no avião. Leva 3 jatos.' },
+  aereoBicudo: { type: 'whitefly', label: 'Bicudo na lavoura', w: 36, h: 28, speed: 1, role: 'Escondido entre os pés de algodão. Pegue a gotinha azul e passe por cima pulverizando.' },
   percevejo: { type: 'whitefly', label: 'Percevejo', w: 36, h: 28, speed: 1, role: 'Blindado: quando se alinha com o avião, investe em linha reta. Leva 4 jatos.' },
   tempestade: { type: 'whitefly', label: 'Nuvem de tempestade', w: 36, h: 28, speed: 1, role: 'Não dá para derrubar: pisca e solta um raio até a lavoura. Saia de baixo!' },
 };
@@ -41,7 +41,7 @@ export const PHASE_ROSTER = {
   fiacao: ['sintetico'],
   laboratorio: ['fumagina', 'graxolino', 'plastico'],
   manejo: ['weevil', 'whitefly'],
-  aereo: ['aereoMosca', 'mariposa', 'aereoBicudo', 'percevejo', 'tempestade'],
+  aereo: ['aereoMosca', 'mariposa', 'percevejo', 'tempestade', 'aereoBicudo'],
 };
 
 export const kindOf = (e) => ENEMY_KINDS[e.skin || e.type || 'weevil'] ?? ENEMY_KINDS.weevil;

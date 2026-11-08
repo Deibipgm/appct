@@ -25,7 +25,7 @@ function makeFoe(kind, y, delay) {
   return { kind, x: VIEW_W + 60, y, baseY: y, t: -delay, hp: k.hp, w: k.w, h: k.h, vx: k.vx, flash: 0, cd: 60 };
 }
 
-export const BOSS_HP = 60;
+export const BOSS_HP = 35;
 
 export function spawnWaves(eng) {
   const fl = eng.fl;
@@ -75,7 +75,7 @@ export function updateFoes(eng, hurt) {
       // passa devagar e, quando se alinha com o avião, investe
       if (!f.dash && f.x < VIEW_W * 0.7 && Math.abs(pl.y - f.y) < 60) {
         f.dash = true;
-        f.vx = -6.5;
+        f.vx = -5;
       }
       if (!f.dash) f.y = f.baseY + Math.sin(f.t * 0.05) * 18;
     }
@@ -88,7 +88,7 @@ export function updateFoes(eng, hurt) {
     }
     if (f.kind === 'tempestade') {
       // raio: aviso piscando e depois descarga até a lavoura
-      f.bolt = (f.t % 150) - 90;
+      f.bolt = (f.t % 190) - 130; // aviso piscando mais longo
       if (f.bolt === 31) eng.hooks.onSound?.('block');
       if (f.bolt > 30 && f.bolt < 60) {
         const bx = f.x + f.w / 2;
@@ -107,7 +107,7 @@ export function updateFoes(eng, hurt) {
       fl.shots.forEach((s) => {
         if (!s.hit && hitBox(s, f, -10)) s.hit = true;
       });
-    if (!f.dead && overlap(pl, f, 10)) {
+    if (!f.dead && overlap(pl, f, 16)) {
       hurt(eng, f.kind);
       if (f.kind !== 'tempestade') damage(eng, f, f.x, f.y + f.h / 2);
     }
@@ -133,16 +133,16 @@ export function updateBoss(eng, hurt) {
   b.x += (VIEW_W - 270 - b.x) * 0.02;
   b.y = 170 + Math.sin(b.t * 0.018) * 95 - b.h / 2 + 40;
   // fica mais bravo com metade da vida: ataca mais rápido
-  const every = b.hp > b.max / 2 ? 110 : 80;
+  const every = b.hp > b.max / 2 ? 150 : 115;
   if (b.t > 120 && b.t % every === 0) {
     const mouth = { x: b.x + 20, y: b.y + b.h * 0.62 };
     const atk = ATTACKS[b.atk++ % ATTACKS.length];
     if (atk === 'spread') {
-      for (let i = -3; i <= 3; i++) fl.foeShots.push({ x: mouth.x, y: mouth.y, vx: -4.2 * Math.cos(i * 0.22), vy: 4.2 * Math.sin(i * 0.22), c: '#9B5BD4' });
+      for (let i = -2; i <= 2; i++) fl.foeShots.push({ x: mouth.x, y: mouth.y, vx: -3.4 * Math.cos(i * 0.3), vy: 3.4 * Math.sin(i * 0.3), c: '#9B5BD4' });
     } else if (atk === 'aim') {
-      [0, 10, 20].forEach((d) => fl.foeShots.push({ ...aimAt(mouth, pl, 5), x: mouth.x + d, c: '#7A9A2E' }));
+      [0, 14].forEach((d) => fl.foeShots.push({ ...aimAt(mouth, pl, 3.6), x: mouth.x + d, c: '#7A9A2E' }));
     } else {
-      [-60, 0, 60].forEach((dy, i) => fl.foes.push({ ...makeFoe('mosca', b.y + b.h / 2 + dy, i * 14), x: b.x }));
+      [-50, 50].forEach((dy, i) => fl.foes.push({ ...makeFoe('mosca', b.y + b.h / 2 + dy, i * 14), x: b.x }));
     }
     eng.hooks.onSound?.('spit');
   }
@@ -166,5 +166,5 @@ export function updateBoss(eng, hurt) {
       }
     }
   }
-  if (!b.dead && overlap(pl, b, 26)) hurt(eng, 'barao');
+  if (!b.dead && overlap(pl, b, 34)) hurt(eng, 'barao');
 }

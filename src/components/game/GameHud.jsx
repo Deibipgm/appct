@@ -1,9 +1,27 @@
 import { motion } from 'framer-motion';
+import { Pause } from 'lucide-react';
 import { PixelGoldenBoll, HudImg, HudHeart } from '@/components/game/hud/HudIcons';
 import StatChip from '@/components/game/hud/StatChip';
 
 const ICON = 'h-8 w-8 sm:h-10 sm:w-10';
 const Divider = () => <span className="mx-1 hidden h-8 w-[2px] rounded bg-[#C9AE7E] sm:block" aria-hidden="true" />;
+
+// botão de pausa (no celular não há Esc nem Start)
+function PauseButton({ onClick }) {
+  if (!onClick) return null;
+  return (
+    <motion.button
+      type="button"
+      aria-label="Pausar"
+      onClick={onClick}
+      whileTap={{ scale: 0.88, y: 2 }}
+      whileHover={{ y: -1 }}
+      className="flex h-9 w-9 items-center justify-center rounded-full border-[3px] border-[#7A4A1E] bg-[#FFD23F] text-[#3A2A0E] shadow-[0_2px_0_rgba(80,40,10,0.35)] sm:h-11 sm:w-11"
+    >
+      <Pause className="h-4 w-4 fill-current sm:h-5 sm:w-5" />
+    </motion.button>
+  );
+}
 
 function RoundButton({ label, onClick, img, dim = false }) {
   return (
@@ -20,7 +38,7 @@ function RoundButton({ label, onClick, img, dim = false }) {
   );
 }
 
-export default function GameHud({ level, hud, soundOn, onToggleSound, onExit, compact = false }) {
+export default function GameHud({ level, hud, soundOn, onToggleSound, onExit, onPause, compact = false }) {
 
   if (compact) {
     const C = 'h-6 w-6';
@@ -33,6 +51,7 @@ export default function GameHud({ level, hud, soundOn, onToggleSound, onExit, co
           {hud.power > 0 && <span className="flex items-center gap-1"><PixelGoldenBoll className={C} />{Math.ceil(hud.power / 60)}s</span>}
         </div>
         <div className="pointer-events-auto ml-auto flex items-center gap-1">
+          <PauseButton onClick={onPause} />
           <RoundButton label={soundOn ? 'Desligar som' : 'Ligar som'} onClick={onToggleSound} img="sound" dim={!soundOn} />
           <RoundButton label="Voltar ao menu" onClick={onExit} img="exit" />
         </div>
@@ -60,6 +79,7 @@ export default function GameHud({ level, hud, soundOn, onToggleSound, onExit, co
 
         <div className="ml-auto flex items-center gap-2">
           <Divider />
+          <PauseButton onClick={onPause} />
           <RoundButton label={soundOn ? 'Desligar som' : 'Ligar som'} onClick={onToggleSound} img="sound" dim={!soundOn} />
           <RoundButton label="Voltar ao menu" onClick={onExit} img="exit" />
         </div>

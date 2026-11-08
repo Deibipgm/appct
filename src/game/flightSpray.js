@@ -9,7 +9,7 @@ const SPRAY_FRAMES = 480;
 const GAP = 95;
 const SETTLE_Y = GROUND_Y - 52; // altura das copas, onde os bicudos aparecem
 const SETTLE_FRAMES = 50;
-const HIT_R = 36;
+const HIT_R = 50;
 
 export function initSpray(def) {
   const nests = def.nests ?? [];
@@ -59,7 +59,7 @@ export function updateSpray(eng) {
     if (!it.live) continue;
     it.x -= fl.speed;
     if (it.x < -40) it.taken = true;
-    if (Math.abs(it.x - (pl.x + pl.w / 2)) < 60 && Math.abs(it.y - (pl.y + pl.h / 2)) < 40) {
+    if (Math.abs(it.x - (pl.x + pl.w / 2)) < 70 && Math.abs(it.y - (pl.y + pl.h / 2)) < 54) {
       it.taken = true;
       sp.spray = SPRAY_FRAMES;
       eng.score += 50;

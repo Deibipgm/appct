@@ -353,6 +353,7 @@ export default function Game() {
           soundOn={soundOn}
           onToggleSound={() => setSoundOn((s) => !s)}
           onExit={() => setPhase('menu')}
+          onPause={() => setPaused(true)}
           compact={landscapePhone}
         />
 

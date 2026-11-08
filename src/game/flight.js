@@ -37,7 +37,7 @@ function hurtPlane(eng, cause = '') {
   const pl = eng.fl.plane;
   if (pl.invuln > 0 || eng.power > 0 || eng.finished || eng.fl.boss?.dead) return;
   eng.lives -= 1;
-  pl.invuln = 140;
+  pl.invuln = 180;
   eng.shake = 14;
   eng.fl.booms.push({ x: pl.x + pl.w / 2, y: pl.y + pl.h / 2, t: 0, s: 0.7 });
   eng.lastHurt = cause;
@@ -91,7 +91,7 @@ function updateShots(eng) {
   fl.foeShots.forEach((s) => {
     s.x += s.vx;
     s.y += s.vy;
-    if (hitBox(s, fl.plane, 8)) {
+    if (hitBox(s, { x: fl.plane.x + 18, y: fl.plane.y + 6, w: fl.plane.w - 36, h: fl.plane.h - 12 }, 4)) {
       s.hit = true;
       hurtPlane(eng, 'gosma');
     }
@@ -115,7 +115,7 @@ function updatePickups(eng) {
     if (!it.live) continue;
     it.x -= fl.speed;
     if (it.x < -40) it.taken = true;
-    if (Math.abs(it.x - (pl.x + pl.w / 2)) < 60 && Math.abs(it.y - (pl.y + pl.h / 2)) < 36) {
+    if (Math.abs(it.x - (pl.x + pl.w / 2)) < 70 && Math.abs(it.y - (pl.y + pl.h / 2)) < 50) {
       it.taken = true;
       if (it.title) {
         eng.factsFound++;

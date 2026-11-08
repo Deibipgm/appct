@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight, ArrowUp, ArrowDown, Hand, Circle, Wind, Droplets } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ArrowUp, ArrowDown, Hand, Circle, Wind } from 'lucide-react';
 
 // Aparece em celular e tablet (tela de toque ou tela menor que um notebook).
 const isTouchScreen = () =>
@@ -78,18 +78,9 @@ export default function TouchControls({ engineRef, overlay = false, flight = fal
         <div className={`flex items-end gap-2 sm:gap-4 ${o ? 'opacity-80' : ''}`}>
           <HoldButton
             hideLabel={o}
-            label="Pulverizar"
-            onPress={() => set('throw', true)}
-            onRelease={() => set('throw', false)}
-            className={`${o ? 'h-16 w-16' : 'h-14 w-14 sm:h-[72px] sm:w-[72px]'} rounded-full bg-[#4FC3FF] text-[#0B3A5A]`}
-          >
-            <Droplets className={o ? 'h-6 w-6' : 'h-7 w-7 sm:h-8 sm:w-8'} />
-          </HoldButton>
-          <HoldButton
-            hideLabel={o}
             label="Jato"
-            onPress={tap('punch')}
-            onRelease={() => set('punch', false)}
+            onPress={tap('throw')}
+            onRelease={() => set('throw', false)}
             className={`${o ? 'h-[76px] w-[76px]' : 'h-16 w-16 sm:h-[88px] sm:w-[88px]'} rounded-full bg-[#F0273A] text-white`}
           >
             <Wind className={o ? 'h-7 w-7' : 'h-8 w-8 sm:h-10 sm:w-10'} />

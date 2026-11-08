@@ -6,7 +6,6 @@ import { drawFlightSky, drawNearClouds } from './flightSky';
 import { GROUND_Y, drawGroundObstacles, drawCottonRows } from './flightGround';
 import { drawHiddenBugs, drawSprayFront, drawFlightHelp, outlinedText } from './flightSpray';
 
-const TOUCH = typeof window !== 'undefined' && !!window.matchMedia?.('(pointer: coarse)').matches;
 
 const PLANE_W = 170;
 // ponto do nariz (onde gira a hélice) dentro da arte do avião
@@ -303,7 +302,7 @@ export function drawFlight(ctx, eng) {
   drawPlane(ctx, fl, t, eng.power);
   drawBooms(ctx, fl);
   drawNearClouds(ctx, fl, t);
-  drawFlightHelp(ctx, fl, t, TOUCH);
+  drawFlightHelp(ctx, fl, t);
   // aviso de largada e chegada do chefão
   if (fl.dist < 260) {
     ctx.globalAlpha = Math.min(1, (260 - fl.dist) / 80);

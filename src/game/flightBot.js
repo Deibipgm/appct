@@ -10,7 +10,7 @@ export function createFlightBot() {
     if (!fl) return;
     const pl = fl.plane;
     const inp = e.input;
-    inp.punch = true;
+    inp.throw = true;
     const cy = pl.y + pl.h / 2;
     let target = 230;
     // 1) obstáculo do chão chegando: voa por cima dele
@@ -32,10 +32,6 @@ export function createFlightBot() {
     if (fl.boss && !fl.boss.dead) target = fl.boss.y + fl.boss.h * 0.6;
     else if (goods.length) target = goods[0].y;
     else if (foes.length) target = foes[0].y + foes[0].h / 2;
-    // calda no tanque e bicudo escondido à frente: desce perto da lavoura e pulveriza
-    const bugAhead = fl.sp.bugs.some((b) => b.live && !b.dead && !b.gone && b.x > pl.x - 40 && b.x < pl.x + 260);
-    if (fl.sp.tank > 0 && bugAhead && !(fl.boss && !fl.boss.dead)) target = 360;
-    inp.throw = fl.sp.tank > 0 && bugAhead;
     if (ceiling < Infinity) target = Math.min(target, ceiling - pl.h / 2 - 34);
     // 4) desvia da gosma que vem na direção do avião e do raio da tempestade
     for (const s of fl.foeShots) {

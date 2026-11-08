@@ -3,16 +3,14 @@ import { INK, ink } from './brush';
 import { ART, getSprite, drawSprite } from './sprites';
 import { GROUND_Y } from './flightGround';
 
-// Pulverização (a mecânica educativa da fase): a gotinha azul enche o tanque de calda; segurando
-// PULVERIZAR o avião solta a calda pelas barras sob as asas. Voando BAIXO a calda assenta na
-// lavoura e acaba com os bicudos escondidos; voando ALTO o vento leva a calda (DERIVA) e nada acontece.
-const TANK_PER_FRAME = 0.4; // tanque cheio (100) dura ~4 s de pulverização
+// Pulverização automática: a gotinha azul enche o tanque de calda e o avião solta a calda sozinho
+// pelas barras sob as asas até o tanque esvaziar. A calda assenta na lavoura e acaba com os
+// bicudos escondidos quando o avião passa por cima deles.
+const TANK_PER_FRAME = 100 / 480; // tanque cheio dura 8 s de pulverização
 const GAP = 95;
 const SETTLE_Y = GROUND_Y - 52; // altura das copas, onde os bicudos aparecem
 const SETTLE_FRAMES = 60;
 const HIT_R = 50;
-// acima desta altura sobre as copas a calda vira deriva
-export const DRIFT_ABOVE = 150;
 
 export function initSpray(def) {
   const nests = def.nests ?? [];
@@ -31,17 +29,14 @@ export function initSpray(def) {
   };
 }
 
-export const planeAltitude = (pl) => SETTLE_Y - (pl.y + pl.h);
-
 export function updateSpray(eng) {
   const fl = eng.fl;
   const sp = fl.sp;
   const pl = fl.plane;
-  const inp = eng.input;
   if (sp.tipT > 0) sp.tipT--;
   if (sp.driftMsgT > 0) sp.driftMsgT--;
-  sp.spraying = !!inp.throw && sp.tank > 0 && !fl.boss?.dead;
-  sp.drifting = sp.spraying && planeAltitude(pl) > DRIFT_ABOVE;
+  sp.spraying = sp.tank > 0 && !fl.boss?.dead;
+  sp.drifting = false;
   if (sp.spraying) {
     sp.tank = Math.max(0, sp.tank - TANK_PER_FRAME);
     if (sp.drifting) sp.driftMsgT = 40;
@@ -95,7 +90,7 @@ export function updateSpray(eng) {
       sp.tank = 100;
       eng.score += 50;
       eng.hooks.onSound?.('power');
-      // primeira gotinha: ensina como pulverizar
+      // primeira gotinha: explica a pulverização
       if (!sp.tipShown) {
         sp.tipShown = true;
         sp.tipT = 330;
@@ -270,7 +265,7 @@ export function drawSprayFront(ctx, fl, time) {
 }
 
 // faixa de dica (primeira gotinha) e barra de progresso do voo
-export function drawFlightHelp(ctx, fl, time, touch) {
+export function drawFlightHelp(ctx, fl) {
   const sp = fl.sp;
   if (sp.tipT > 0) {
     const a = Math.min(1, sp.tipT / 30, (330 - sp.tipT) / 15);
@@ -285,10 +280,10 @@ export function drawFlightHelp(ctx, fl, time, touch) {
     ctx.font = '900 19px "Baloo 2", system-ui, sans-serif';
     ctx.textAlign = 'center';
     ctx.fillStyle = INK;
-    ctx.fillText(touch ? 'Segure o botão azul PULVERIZAR' : 'Segure K ou C para PULVERIZAR', VIEW_W / 2, 80);
+    ctx.fillText('Calda no tanque: o avião pulveriza sozinho!', VIEW_W / 2, 80);
     ctx.font = '800 15px "Nunito", system-ui, sans-serif';
     ctx.fillStyle = '#1F6FA8';
-    ctx.fillText('Voe BAIXO sobre a lavoura: alto demais o vento leva a calda (deriva)', VIEW_W / 2, 101);
+    ctx.fillText('Passe por cima dos bicudos marcados com ! antes do tanque acabar', VIEW_W / 2, 101);
     ctx.textAlign = 'left';
     ctx.globalAlpha = 1;
   }

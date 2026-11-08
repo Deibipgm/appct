@@ -1,0 +1,65 @@
+{
+  "name": "SavedLevel",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Nome da fase criada"
+    },
+    "preset": {
+      "type": "string",
+      "enum": [
+        "solo",
+        "plantio",
+        "crescimento",
+        "colheita",
+        "laboratorio"
+      ],
+      "enumColors": [
+        "blue",
+        "green",
+        "yellow",
+        "purple",
+        "red"
+      ],
+      "default": "solo",
+      "description": "Cen\u00e1rio usado como base visual"
+    },
+    "width": {
+      "type": "integer",
+      "description": "Largura da fase em blocos"
+    },
+    "groundTop": {
+      "type": "integer",
+      "default": 8
+    },
+    "startX": {
+      "type": "integer"
+    },
+    "goalX": {
+      "type": "integer"
+    },
+    "grid": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Linhas da grade, um caractere por bloco"
+    },
+    "bolls": {
+      "type": "array"
+    },
+    "goldens": {
+      "type": "array"
+    },
+    "items": {
+      "type": "array"
+    },
+    "enemies": {
+      "type": "array"
+    }
+  },
+  "required": [
+    "name"
+  ]
+}

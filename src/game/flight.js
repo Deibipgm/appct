@@ -61,7 +61,8 @@ function movePlane(eng) {
   pl.tilt += (pl.vy * 0.05 - pl.tilt) * 0.15;
   if (pl.invuln > 0) pl.invuln--;
   // jatos de algodão no botão (segurar = rajada; o capulho dourado dá tiro triplo)
-  const firing = inp.throw || inp.punch || inp.throwTap || inp.punchTap;
+  // jato = botão de soco (J/X/F, Y no controle); o botão de arremesso (K/C, A) agora é PULVERIZAR
+  const firing = inp.punch || inp.punchTap;
   inp.throwTap = false;
   inp.punchTap = false;
   inp.jumpTap = false;

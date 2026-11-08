@@ -15,8 +15,8 @@ export const AEREO_LEVEL = {
   name: 'Aplicação Aérea',
   tag: 'Fase 6 · Aviação agrícola',
   mission: 'Pilotar o avião agrícola em voo rasante, proteger a lavoura das pragas e pulverizar os bicudos escondidos.',
-  brief: 'O Dão assume o avião agrícola! Atire jatos de algodão nas pragas, desvie de torres, postes e pivôs, pegue o capulho dourado com a gotinha para pulverizar os bicudos escondidos na lavoura e derrube o Barão Bicudo.',
-  tip: 'Pegue o capulho com a gotinha azul para pulverizar os bicudos escondidos. Fuja dos raios da nuvem de tempestade!',
+  brief: 'O Dão assume o avião agrícola! Atire jatos de algodão nas pragas, desvie de torres e pivôs, pegue a gotinha azul de calda e pulverize voando baixo sobre a lavoura para acabar com os bicudos escondidos e derrube o Barão Bicudo.',
+  tip: 'Pegue a gotinha azul e segure PULVERIZAR voando baixo sobre a lavoura: alto demais é deriva!',
   seal: 'Piloto Agrícola',
   // só para o editor e as telas que leem o tema
   theme: {

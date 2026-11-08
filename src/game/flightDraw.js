@@ -4,7 +4,9 @@ import { ART, getSprite, drawSprite, drawVintageFilter } from './sprites';
 import { drawPointBoll } from './cotton';
 import { drawFlightSky, drawNearClouds } from './flightSky';
 import { GROUND_Y, drawGroundObstacles, drawCottonRows } from './flightGround';
-import { drawHiddenBugs, drawSprayFront } from './flightSpray';
+import { drawHiddenBugs, drawSprayFront, drawFlightHelp, outlinedText } from './flightSpray';
+
+const TOUCH = typeof window !== 'undefined' && !!window.matchMedia?.('(pointer: coarse)').matches;
 
 const PLANE_W = 170;
 // ponto do nariz (onde gira a hélice) dentro da arte do avião
@@ -75,8 +77,20 @@ function drawPlane(ctx, fl, time, power) {
 }
 
 function drawShots(ctx, fl, time) {
+  // jato de algodão: rastro amarelo e contorno escuro para não se confundir com as nuvens
   fl.shots.forEach((s) => {
+    ctx.strokeStyle = 'rgba(255, 200, 60, 0.75)';
+    ctx.lineWidth = 5;
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.moveTo(s.x - 26, s.y - s.vy * 2.2);
+    ctx.lineTo(s.x - 6, s.y);
+    ctx.stroke();
     puffCluster(ctx, s.x, s.y, [[0, 0, 7], [-6, 1, 5], [-11, 0, 3.5]], 1, '#FFFDF7');
+    ctx.fillStyle = '#FFE95A';
+    ctx.beginPath();
+    ctx.arc(s.x + 3, s.y - 1, 2.6, 0, Math.PI * 2);
+    ctx.fill();
   });
   fl.foeShots.forEach((s) => {
     ctx.beginPath();
@@ -219,11 +233,20 @@ function drawPickups(ctx, fl, time) {
   fl.items.forEach((it) => it.live && !it.taken && drawPointBoll(ctx, it.x, it.y + Math.sin(time * 3 + it.at) * 4, time, 0.9, it.at));
   fl.goldens.forEach((it) => {
     if (!it.live || it.taken) return;
-    star(ctx, it.x, it.y, 10, 24, 13, time);
-    ctx.fillStyle = '#FFC93A';
+    // capulho dourado: estrela laranja grande com "x3" (tiro triplo e escudo)
+    const pulse = 1 + Math.sin(time * 6) * 0.08;
+    const g = ctx.createRadialGradient(it.x, it.y, 8, it.x, it.y, 44);
+    g.addColorStop(0, 'rgba(255, 150, 40, 0.55)');
+    g.addColorStop(1, 'rgba(255, 150, 40, 0)');
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.arc(it.x, it.y, 44, 0, Math.PI * 2);
     ctx.fill();
-    ink(ctx, 2.2);
-    puffCluster(ctx, it.x, it.y, [[0, 0, 8], [-5, 2, 6], [5, 2, 6]], 1, '#FFD24A');
+    star(ctx, it.x, it.y, 5, 27 * pulse, 13 * pulse, time * 1.5);
+    ctx.fillStyle = '#FF9A1F';
+    ctx.fill();
+    ink(ctx, 2.6);
+    outlinedText(ctx, 'x3', it.x, it.y + 6, 15, '#FFFFFF');
   });
   fl.facts.forEach((it) => {
     if (!it.live || it.taken) return;
@@ -280,6 +303,7 @@ export function drawFlight(ctx, eng) {
   drawPlane(ctx, fl, t, eng.power);
   drawBooms(ctx, fl);
   drawNearClouds(ctx, fl, t);
+  drawFlightHelp(ctx, fl, t, TOUCH);
   // aviso de largada e chegada do chefão
   if (fl.dist < 260) {
     ctx.globalAlpha = Math.min(1, (260 - fl.dist) / 80);

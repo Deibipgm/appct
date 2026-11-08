@@ -42,8 +42,8 @@ const CONTROLS = [
 // Fase 6: comandos do avião
 const FLIGHT_CONTROLS = [
   { icon: <><ArrowUp className="h-4 w-4" /><ArrowDown className="h-4 w-4" /></>, bg: '#FFFDF7', name: 'Pilotar', what: 'Sobe, desce, acelera e freia o avião', keys: 'Setas ou W A S D', pad: 'D-pad' },
-  { icon: <Wind className="h-5 w-5 text-white" />, bg: '#F0273A', name: 'Jato de algodão', what: 'Segure para soltar uma rajada nas pragas', keys: 'J, X, K ou C', pad: 'Y ou A' },
-  { icon: <Droplets className="h-5 w-5" />, bg: '#BFE8FF', name: 'Pulverizar', what: 'Pegue o capulho com a gotinha azul: a calda cai sozinha e acaba com os bicudos escondidos', keys: 'automático', pad: '—' },
+  { icon: <Wind className="h-5 w-5 text-white" />, bg: '#F0273A', name: 'Jato de algodão', what: 'Segure para soltar uma rajada nas pragas', keys: 'J, X ou F', pad: 'Y' },
+  { icon: <Droplets className="h-5 w-5" />, bg: '#BFE8FF', name: 'Pulverizar', what: 'A gotinha azul enche o tanque. Segure e voe BAIXO sobre a lavoura: alto demais o vento leva a calda (deriva)', keys: 'K ou C', pad: 'A' },
 ];
 
 function Pic({ src, size = 64 }) {

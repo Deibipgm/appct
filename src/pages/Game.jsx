@@ -405,7 +405,7 @@ export default function Game() {
 
         <p className="mt-3 hidden text-center text-xs font-semibold text-[#8A8674] md:block">
           {level.flight
-            ? `${level.tip} · Setas ou W/A/S/D pilotam · J, X ou K soltam o jato de algodão (segure para rajada) · Esc pausa · também dá para jogar com controle USB`
+            ? `${level.tip} · Setas ou W/A/S/D pilotam · J, X ou F soltam o jato de algodão · K ou C pulverizam (voe baixo!) · Esc pausa · também dá para jogar com controle USB`
             : `${level.tip} · Setas ou A/D para andar · Espaço para pular · J ou X para dar soco · Esc pausa · também dá para jogar com controle USB`}
         </p>
       </div>
